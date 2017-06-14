@@ -25,4 +25,18 @@
         <source-file src="src/android/libs/esptouch.jar" target-dir="libs" />
         
      </platform>
+     <!--   ios platform -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Esptouch">
+             <param name="ios-package" value="esptouchPlugin"/>
+           </feature>
+       </config-file>
+       <header-file src="src/ios/esptouchPlugin.h"/>
+       <source-file src="src/ios/esptouchPlugin.m"/>
+       <source-file src="src/ios/esptouch"/>
+       <framework src="CoreGraphics.framework" />
+       <framework src="UIKit.framework" />
+       <framework src="Foundation.framework" />
+    </platform>
 </plugin>
