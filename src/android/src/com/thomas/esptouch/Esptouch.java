@@ -21,11 +21,18 @@ public class Esptouch extends CordovaPlugin {
     CallbackContext receivingCallbackContext = null;
     EspWifiAdminSimple mWifiAdmin;
     private EsptouchAsyncTask3 esptouchAsyncTask3;
+
+    @Override
+    protected void pluginInitialize() {
+        super.pluginInitialize();
+        mWifiAdmin = new EspWifiAdminSimple(cordova.getActivity());
+    }
+
     @Override
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         receivingCallbackContext = callbackContext;//modified by lianghuiyuan
         if ("getWifiSSid".equals(action)){
-            mWifiAdmin = new EspWifiAdminSimple(cordova.getActivity());
+
             String apSsid = mWifiAdmin.getWifiConnectedSsid();
             callbackContext.success(apSsid);
             return true;
