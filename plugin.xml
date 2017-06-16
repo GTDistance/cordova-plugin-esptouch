@@ -21,9 +21,29 @@
 		    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
         </config-file>
 
+        <source-file src="src/android/src/com/thomas/esptouch/__EsptouchTask.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/__IEsptouchTask.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/ByteUtil.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/CRC8.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/DataCode.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/DatumCode.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/EspNetUtil.java" target-dir="src/com/thomas/esptouch" />
         <source-file src="src/android/src/com/thomas/esptouch/Esptouch.java" target-dir="src/com/thomas/esptouch" />
-        <source-file src="src/android/libs/esptouch.jar" target-dir="libs" />
-        
+        <source-file src="src/android/src/com/thomas/esptouch/EsptouchGenerator.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/EsptouchResult.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/EsptouchTask.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/EsptouchTaskParameter.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/EspWifiAdminSimple.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/GuideCode.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/ICodeData.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/IEsptouchGenerator.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/IEsptouchListener.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/IEsptouchResult.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/IEsptouchTask.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/IEsptouchTaskParameter.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/UDPSocketClient.java" target-dir="src/com/thomas/esptouch" />
+        <source-file src="src/android/src/com/thomas/esptouch/UDPSocketServer.java" target-dir="src/com/thomas/esptouch" />
+
      </platform>
      <!--   ios platform -->
     <platform name="ios">

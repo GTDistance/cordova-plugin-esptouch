@@ -1,7 +1,9 @@
 package com.thomas.esptouch;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaActivity;
 import org.apache.cordova.CordovaPlugin;
@@ -18,6 +20,7 @@ public class Esptouch extends CordovaPlugin {
     private static final String TAG = "Esptouch";
     CallbackContext receivingCallbackContext = null;
     EspWifiAdminSimple mWifiAdmin;
+    private EsptouchAsyncTask3 esptouchAsyncTask3;
     @Override
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         receivingCallbackContext = callbackContext;//modified by lianghuiyuan
@@ -35,8 +38,16 @@ public class Esptouch extends CordovaPlugin {
             final String taskResultCountStr = "1";
 //            final int taskResultCount = Integer.parseInt(taskResultCountStr);
             String apBssid = mWifiAdmin.getWifiConnectedBssid();
-            new EsptouchAsyncTask3().execute(apSsid, apBssid, apPassword,
+            if (__IEsptouchTask.DEBUG) {
+                Log.d(TAG, "mBtnConfirm is clicked, mEdtApSsid = " + apSsid
+                        + ", " + " mEdtApPassword = " + apPassword);
+            }
+            esptouchAsyncTask3 = new EsptouchAsyncTask3();
+            esptouchAsyncTask3.execute(apSsid, apBssid, apPassword,
                     isSsidHiddenStr, taskResultCountStr);
+
+
+
             return true;
         } else if ("stopSearch".equals(action)) {
             stopSearch();
@@ -48,16 +59,34 @@ public class Esptouch extends CordovaPlugin {
         }
     }
 
-    private IEsptouchTask mEsptouchTask;
-    private final Object mLock = new Object();
+//    private IEsptouchTask mEsptouchTask;
+//    private final Object mLock = new Object();
     private void stopSearch(){
-        synchronized (mLock) {
-                if (mEsptouchTask != null) {
-                    mEsptouchTask.interrupt();
+        synchronized (esptouchAsyncTask3.mLock) {
+                if (esptouchAsyncTask3.mEsptouchTask != null) {
+                    esptouchAsyncTask3.mEsptouchTask.interrupt();
                 }
             }
     }
+    private IEsptouchListener myListener = new IEsptouchListener() {
 
+        @Override
+        public void onEsptouchResultAdded(final IEsptouchResult result) {
+            onEsptoucResultAddedPerform(result);
+        }
+    };
+    private void onEsptoucResultAddedPerform(final IEsptouchResult result) {
+//        new Handler().post(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                String text =
+//                Toast.makeText(cordova.getActivity(), text, Toast.LENGTH_LONG).show();
+//            }
+//
+//        });
+        System.out.println(result.getBssid() + " is connected to the wifi");
+    }
     private class EsptouchAsyncTask3 extends AsyncTask<String, Void, List<IEsptouchResult>> {
         // without the lock, if the user tap confirm and cancel quickly enough,
         // the bug will arise. the reason is follows:
@@ -65,9 +94,12 @@ public class Esptouch extends CordovaPlugin {
         // 1. the task is cancel for the task hasn't been created, it do nothing
         // 2. task is created
         // 3. Oops, the task should be cancelled, but it is running
+         IEsptouchTask mEsptouchTask;
+         final Object mLock = new Object();
 
         @Override
         protected void onPreExecute() {
+
         }
 
         @Override
@@ -86,6 +118,7 @@ public class Esptouch extends CordovaPlugin {
                 taskResultCount = Integer.parseInt(taskResultCountStr);
                 mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
                         isSsidHidden, cordova.getActivity());
+                mEsptouchTask.setEsptouchListener(myListener);
             }
             List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
             return resultList;
@@ -125,6 +158,7 @@ public class Esptouch extends CordovaPlugin {
                     receivingCallbackContext.error("配网超时");
                 }
             }
+
         }
     }
 
